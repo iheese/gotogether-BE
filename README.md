@@ -47,12 +47,12 @@
 
 - Back
     - Java 17
-    - Spring Boot , JPA
+    - Spring Boot 2.7.3
     - Spring Security, JWT
     - Gradle
     - MySQL
     - Redis
-    - QueryDSL
+    - QueryDSL 1.0.10
     - AWS EC2 , ROUTE 53, RDS, S3
     - Jenkins
     - Docker
