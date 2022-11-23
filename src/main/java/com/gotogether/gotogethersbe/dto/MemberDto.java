@@ -2,6 +2,7 @@ package com.gotogether.gotogethersbe.dto;
 
 import com.gotogether.gotogethersbe.domain.Member;
 import com.gotogether.gotogethersbe.domain.enums.Authority;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 public class MemberDto {
 
     @Data
+    @Builder
     public static class MemberRequest {
         private String email;
         private String password;
