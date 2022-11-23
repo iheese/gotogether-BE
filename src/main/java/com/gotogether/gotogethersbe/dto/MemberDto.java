@@ -49,6 +49,7 @@ public class MemberDto {
     }
 
     @Getter
+    @Builder
     public static class emailRequest{
         private String email;
     }
