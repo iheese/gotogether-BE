@@ -1,9 +1,13 @@
 package com.gotogether.gotogethersbe.service;
 
 import com.gotogether.gotogethersbe.config.auth.TokenManager;
+import com.gotogether.gotogethersbe.config.common.exception.CustomException;
 import com.gotogether.gotogethersbe.domain.Member;
 import com.gotogether.gotogethersbe.dto.MemberDto;
 import com.gotogether.gotogethersbe.repository.MemberRepository;
+import com.gotogether.gotogethersbe.web.api.ResponseMessage;
+import com.gotogether.gotogethersbe.web.api.StatusCode;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 
@@ -39,9 +45,6 @@ public class AuthServiceTest {
     @Mock
     private RedisTemplate redisTemplate;
 
-    /*
-    * 회원가입시 요청 객체 생성하여 저장된 값과 응답값이 같은지 테스트
-    * */
     @DisplayName("회원가입 테스트")
     @Test
     void signupTest(){
@@ -70,4 +73,26 @@ public class AuthServiceTest {
                 .birth(LocalDate.parse("2022-11-23"))
                 .build();
     }
+
+    @DisplayName("이메일 유효성 검사 예외 테스트")
+    @Test
+    void checkEmailTest(){
+        //given
+        MemberDto.emailRequest emailRequest = emailRequest();
+        CustomException customException = new CustomException(ResponseMessage.CHECK_EMAIL_FAIL, StatusCode.BAD_REQUEST);
+        when(memberRepository.existsByEmail(anyString())).thenReturn(true);
+
+        //when
+
+        //then
+        assertThatThrownBy(() -> {authService.checkEmail(emailRequest);})
+                .isInstanceOf(CustomException.class);
+    }
+
+    private MemberDto.emailRequest emailRequest(){
+        return MemberDto.emailRequest.builder()
+                .email("test@test.com")
+                .build();
+    }
+
 }
