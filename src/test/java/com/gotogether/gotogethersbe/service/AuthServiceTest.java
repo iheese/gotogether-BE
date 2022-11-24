@@ -3,7 +3,9 @@ package com.gotogether.gotogethersbe.service;
 import com.gotogether.gotogethersbe.config.auth.TokenManager;
 import com.gotogether.gotogethersbe.config.common.exception.CustomException;
 import com.gotogether.gotogethersbe.domain.Member;
+import com.gotogether.gotogethersbe.dto.LoginDto;
 import com.gotogether.gotogethersbe.dto.MemberDto;
+import com.gotogether.gotogethersbe.dto.TokenDto;
 import com.gotogether.gotogethersbe.repository.MemberRepository;
 import com.gotogether.gotogethersbe.web.api.ResponseMessage;
 import com.gotogether.gotogethersbe.web.api.StatusCode;
@@ -13,10 +15,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -79,12 +90,9 @@ public class AuthServiceTest {
     void checkEmailTest(){
         //given
         MemberDto.emailRequest emailRequest = emailRequest();
-        CustomException customException = new CustomException(ResponseMessage.CHECK_EMAIL_FAIL, StatusCode.BAD_REQUEST);
         when(memberRepository.existsByEmail(anyString())).thenReturn(true);
 
-        //when
-
-        //then
+        //when, then
         assertThatThrownBy(() -> {authService.checkEmail(emailRequest);})
                 .isInstanceOf(CustomException.class);
     }
@@ -95,4 +103,38 @@ public class AuthServiceTest {
                 .build();
     }
 
+    @DisplayName("로그인 테스트")
+    @Test
+    void loginTest(){
+        //given
+        //AuthenticationManagerBuilder authenticationManagerBuilder
+               // = new AuthenticationManagerBuilder(any(ObjectPostProcessor.class));
+
+        LoginDto.LoginRequest loginRequest = loginRequest();
+        TokenDto tokenDto = tokenResponse();
+        //when(authenticationManagerBuilder.getObject()).thenReturn(any());
+        //when(authenticationManagerBuilder.getObject().authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(any(Authentication.class));
+        //doNothing().when(redisTemplate.opsForValue());
+
+        //when
+        TokenDto tokenResponse = authService.login(loginRequest);
+
+        //then
+        assertThat(tokenDto.getAccessToken()).isEqualTo(tokenResponse.getAccessToken());
+    }
+
+    private LoginDto.LoginRequest loginRequest(){
+        return LoginDto.LoginRequest.builder()
+                .email("test@test.com")
+                .password("testPassword")
+                .build();
+    }
+
+
+    private TokenDto tokenResponse(){
+        return TokenDto.builder()
+                .accessToken("Issue acessToken!")
+                .refreshToken("Issue refreshToken")
+                .build();
+    }
 }
