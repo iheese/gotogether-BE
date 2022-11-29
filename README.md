@@ -95,6 +95,14 @@
 
 <br>
 
+## Backend ERD(Entity Relationship Diagram)
+
+![gotogetherERD](https://user-images.githubusercontent.com/88040158/204426962-e943018b-7ae5-47ba-a0cc-001017a55f57.png)
+
+- 개발 진행 과정에서 수정사항이 적용되지 못했을 수 있습니다. 
+
+<br>
+
 ## :left_speech_bubble: 프로젝트 내용
 
 ![관리자](https://user-images.githubusercontent.com/88040158/196174137-105870cc-1243-4dbc-be4c-9160fd96e082.png)
