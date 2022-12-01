@@ -46,15 +46,9 @@ public class AuthServiceTest {
     private AuthService authService;
 
     @Mock
-    private AuthenticationManagerBuilder authenticationManagerBuilder;
-    @Mock
     private MemberRepository memberRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
-    @Mock
-    private TokenManager tokenManager;
-    @Mock
-    private RedisTemplate redisTemplate;
 
     @DisplayName("회원가입 테스트")
     @Test
@@ -100,41 +94,6 @@ public class AuthServiceTest {
     private MemberDto.emailRequest emailRequest(){
         return MemberDto.emailRequest.builder()
                 .email("test@test.com")
-                .build();
-    }
-
-    @DisplayName("로그인 테스트")
-    @Test
-    void loginTest(){
-        //given
-        //AuthenticationManagerBuilder authenticationManagerBuilder
-               // = new AuthenticationManagerBuilder(any(ObjectPostProcessor.class));
-
-        LoginDto.LoginRequest loginRequest = loginRequest();
-        TokenDto tokenDto = tokenResponse();
-        //when(authenticationManagerBuilder.getObject()).thenReturn(any());
-        //when(authenticationManagerBuilder.getObject().authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(any(Authentication.class));
-        //doNothing().when(redisTemplate.opsForValue());
-
-        //when
-        TokenDto tokenResponse = authService.login(loginRequest);
-
-        //then
-        assertThat(tokenDto.getAccessToken()).isEqualTo(tokenResponse.getAccessToken());
-    }
-
-    private LoginDto.LoginRequest loginRequest(){
-        return LoginDto.LoginRequest.builder()
-                .email("test@test.com")
-                .password("testPassword")
-                .build();
-    }
-
-
-    private TokenDto tokenResponse(){
-        return TokenDto.builder()
-                .accessToken("Issue acessToken!")
-                .refreshToken("Issue refreshToken")
                 .build();
     }
 }
