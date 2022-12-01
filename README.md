@@ -3,13 +3,16 @@
 ### Go Together
 좋은 사람들과의 잊을 수 없는 여행
 
-<a href="https://iheese.github.io/project/2022/10/20/gotogether/">개인 프로젝트 회고록</a>
+<a href="https://iheese.github.io/project/2022/10/20/gotogether/">프로젝트 개인 회고록</a>
 
 <br>
 
 ## 📌 프로젝트 개요
 #### 프로젝트 기간
-- 2022 . 09 . 06 ~ 2022 . 10 . 14
+- 공식적인 기간 : 2022 . 09 . 06 ~ 2022 . 10 . 14 
+> - 종료 예상일 : 2023년 1월 전 예상
+> - 프론트 엔드 추가 개발 진행 중
+> - 백엔드 테스트 코드 작성 진행 중
 
 #### 프로젝트 목표
 - 고투게더 여행 사이트, 관리자 페이지 설계 및 제작
@@ -92,6 +95,14 @@
 
 <br>
 
+## Backend ERD(Entity Relationship Diagram)
+
+![gotogetherERD](https://user-images.githubusercontent.com/88040158/204426962-e943018b-7ae5-47ba-a0cc-001017a55f57.png)
+
+- 개발 진행 과정에서 수정사항이 적용되지 못했을 수 있습니다. 
+
+<br>
+
 ## :left_speech_bubble: 프로젝트 내용
 
 ![관리자](https://user-images.githubusercontent.com/88040158/196174137-105870cc-1243-4dbc-be4c-9160fd96e082.png)
@@ -106,7 +117,8 @@
 
 - 회원 가입과 로그인 페이지입니다.
 - 로그인시 JWT 토큰(Access Token, Refresh Token)이 발행됩니다. 서버와 클라이언트가 무상태성을 유지하여 데이터를 안전하게 수송신하게 됩니다.
-- 토큰이 발행되면 Refresh Token은 인메모리 데이터 저장소인 Redis에 저장되어 토큰 재발행을 빠르게 돕습니다.
+- 토큰이 발행되고 나서 재발행시 Refresh Token은 인메모리 데이터 저장소인 Redis에 저장되어 토큰 재발행을 빠르게 돕습니다.
+- 또한 로그아웃시 사용했던 Access Token을 Redis의 블랙리스트로 저장해 재사용이 불가하게 하였습니다. 
 
 <br>
 
